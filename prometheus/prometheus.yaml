@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: "metric_collector"
+    static_configs:
+      - targets: ["app:8000"]  # matches the container name from docker-compose
