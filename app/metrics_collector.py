@@ -27,6 +27,7 @@ def get_docker_metrics() -> Dict[str, Any]:
         if not containers:
             stats = {"info": "No running container available"}
 
+
         print(stats)
         return stats
 
