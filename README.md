@@ -13,5 +13,62 @@ A FastAPI-based metrics collection service that gathers **system and container m
 
 ---
 
+## Installation
+
+```bash
+git clone [https://github.com/dev-paschall/metrics-collector.git](https://github.com/dev-paschall/metrics-collector.git)
+cd metrics-collector
+pip install -r requirements.txt
+```
+
+---
+
+## Usage
+
+### Run locally(Uvicorn)
+
+```bash
+uvicorn app.main:app --reload
+```
+Visit http://localhost:8000/metrics to view collected metrics.
 
 
+### Run with Docker
+
+```bash
+docker build -t metrics-collector .
+docker run -d -p 8000:8000 metrics-collector
+```
+This will start:
+- App → FastAPI metrics collector (port 8000)
+- Prometheus → Metrics monitoring (port 9090)
+Then open http://localhost:9090 to access Prometheus UI
+
+
+### Configuration
+
+Prometheus configuration (prometheus.yml):
+
+```yaml
+global:
+  scrape_interval: 10s
+
+scrape_configs:
+  - job_name: "fastapi_app"
+    static_configs:
+      - targets: ["app:8000"]
+```
+You can adjust the scrape_interval or add new jobs to monitor other services.
+
+---
+
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## Author
+
+**Paschal Arowolo**  
+GitHub: @dev-paschall (https://github.com/dev-paschall)
