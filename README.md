@@ -16,7 +16,7 @@ A FastAPI-based metrics collection service that gathers **system and container m
 ## Installation
 
 ```bash
-git clone [https://github.com/dev-paschall/metrics-collector.git](https://github.com/dev-paschall/metrics-collector.git)
+git clone https://github.com/dev-paschall/metrics-collector.git
 cd metrics-collector
 pip install -r requirements.txt
 ```
@@ -33,17 +33,26 @@ uvicorn app.main:app --reload
 Visit http://localhost:8000/metrics to view collected metrics.
 
 
-### Run with Docker
+### Run with Docker(standalone)
+For metrics collection only (requires Docker socket access to collect container stats):
 
 ```bash
 docker build -t metrics-collector .
-docker run -d -p 8000:8000 metrics-collector
+docker run -d -p 8000:8000 \
+  --volume /var/run/docker.sock:/var/run/docker.sock \
+  metrics-collector
 ```
 This will start:
 - App → FastAPI metrics collector (port 8000)
 - Prometheus → Metrics monitoring (port 9090)
 Then open http://localhost:9090 to access Prometheus UI
 
+### Run with Docker Compose (Recommended)
+
+```bash
+docker compose up -d
+```
+Use this method to start the metrics collector and Prometheus simultaneously.
 
 ### Configuration
 
